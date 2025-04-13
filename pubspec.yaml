@@ -10,10 +10,9 @@ dependencies:
   fluentui_system_icons: ^1.1.273
   flutter:
     sdk: flutter
+  flutter_feather_icons: ^2.0.0+1
   flutter_riverpod: ^2.6.1
-  font_awesome_flutter: ^10.8.0
   google_fonts: ^6.2.1
-  hugeicons: ^0.0.10
 
 dev_dependencies:
   flutter_test:
