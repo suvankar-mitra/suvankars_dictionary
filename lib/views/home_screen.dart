@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:suvankars_dictionary/providers/theme_provider.dart';
 import 'package:suvankars_dictionary/views/saved_words_screen.dart';
 import 'package:suvankars_dictionary/views/search_screen.dart';
 import 'package:suvankars_dictionary/views/settings_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
@@ -26,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeProvider);
+
     return SafeArea(
       child: Scaffold(
         body: IndexedStack(index: _selectedIndex, children: _pages),
@@ -34,22 +38,28 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: _onItemTapped,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.magnifyingGlass),
+              icon: Icon(FeatherIcons.search),
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.bookBookmark),
+              icon: Icon(FeatherIcons.bookmark),
               label: 'Saved',
             ),
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.gear),
+              icon: Icon(FeatherIcons.settings),
               label: 'Settings',
             ),
           ],
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+          selectedIconTheme: IconThemeData(
+            size: 30.0,
+            color: themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+          ),
+          unselectedIconTheme: IconThemeData(
+            size: 20.0,
+            color: themeMode == ThemeMode.dark ? Colors.grey : Colors.black54,
+          ),
         ),
       ),
     );
