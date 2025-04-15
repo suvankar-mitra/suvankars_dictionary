@@ -33,32 +33,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         body: IndexedStack(index: _selectedIndex, children: _pages),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.search),
-              label: 'Search',
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: themeMode == ThemeMode.dark
+                    ? Colors.white12
+                    : Colors.black12,
+                width: 2.0,
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.bookmark),
-              label: 'Saved',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.settings),
-              label: 'Settings',
-            ),
-          ],
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedIconTheme: IconThemeData(
-            size: 30.0,
-            color: themeMode == ThemeMode.dark ? Colors.white : Colors.black,
           ),
-          unselectedIconTheme: IconThemeData(
-            size: 20.0,
-            color: themeMode == ThemeMode.dark ? Colors.grey : Colors.black54,
+          child: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(FeatherIcons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FeatherIcons.bookmark),
+                label: 'Saved',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FeatherIcons.settings),
+                label: 'Settings',
+              ),
+            ],
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedIconTheme: IconThemeData(
+              size: 30.0,
+              color: themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+            ),
+            unselectedIconTheme: IconThemeData(
+              size: 20.0,
+              color: themeMode == ThemeMode.dark ? Colors.grey : Colors.black54,
+            ),
           ),
         ),
       ),
