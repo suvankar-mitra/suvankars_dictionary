@@ -28,6 +28,7 @@ class SearchScreen extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Toggle button for dark/light mode
                 Row(
@@ -81,7 +82,6 @@ class SearchScreen extends ConsumerWidget {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      Spacer(),
                     ],
                   ),
                 ),
@@ -140,6 +140,88 @@ class SearchScreen extends ConsumerWidget {
                       // Handle search logic here
                       print('Search for: $value');
                     },
+                  ),
+                ),
+
+                const SizedBox(height: 30,),
+
+                // word of the day
+                Card(
+                  elevation: 3.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  // margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Section Label
+                        Text(
+                          'Word of the Day',
+                          style: GoogleFonts.roboto(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: themeMode == ThemeMode.dark
+                                ? Colors.white54
+                                : Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Word
+                        Text(
+                          'example',
+                          style: GoogleFonts.merriweather(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).textTheme.displaySmall?.color,
+                          ),
+                        ),
+                        // const SizedBox(height: 6),
+
+                        // Part of speech
+                        Text(
+                          '/əɡˈzæmpl̩/',
+                          style: GoogleFonts.merriweather(
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
+                            color: themeMode == ThemeMode.dark
+                                ? Colors.white54
+                                : Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // First definition
+                        Text(
+                          '1. One or a portion taken to show the character or quality of the whole; a sample; a specimen.',
+                          style: GoogleFonts.merriweather(
+                            fontSize: 16,
+                            height: 1.5,
+                            color:
+                            Theme.of(
+                              context,
+                            ).textTheme.bodyLarge?.color,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Second definition
+                        Text(
+                          '2. That which is to be followed or imitated as a model; a pattern or copy.',
+                          style: GoogleFonts.merriweather(
+                            fontSize: 16,
+                            height: 1.5,
+                            color:
+                            Theme.of(
+                              context,
+                            ).textTheme.bodyLarge?.color,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
