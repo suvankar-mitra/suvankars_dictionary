@@ -15,6 +15,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
+  final PageController _pageController = PageController();
 
   final List<Widget> _pages = [
     SearchScreen(),
@@ -23,7 +24,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+      _pageController.animateToPage(
+        index,
+        duration: Duration(microseconds: 200),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -32,14 +46,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: IndexedStack(index: _selectedIndex, children: _pages),
+        // body: IndexedStack(index: _selectedIndex, children: _pages),
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          children: _pages,
+        ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: themeMode == ThemeMode.dark
-                    ? Colors.white12
-                    : Colors.black12,
+                color:
+                    themeMode == ThemeMode.dark
+                        ? Colors.white12
+                        : Colors.black12,
                 width: 2.0,
               ),
             ),
@@ -65,7 +89,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             showUnselectedLabels: false,
             selectedIconTheme: IconThemeData(
               size: 30.0,
-              color: themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+              color:
+                  themeMode == ThemeMode.dark
+                      ? Colors.pink.shade800
+                      : Colors.pink.shade500,
             ),
             unselectedIconTheme: IconThemeData(
               size: 20.0,
