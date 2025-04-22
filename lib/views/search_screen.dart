@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
 
 class SearchScreen extends ConsumerWidget {
@@ -143,7 +142,7 @@ class SearchScreen extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(height: 30,),
+                const SizedBox(height: 30),
 
                 // word of the day
                 Card(
@@ -153,22 +152,26 @@ class SearchScreen extends ConsumerWidget {
                   ),
                   // margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(
+                      top: 20.0,
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 10.0,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Section Label
                         Text(
-                          'Word of the Day',
-                          style: GoogleFonts.roboto(
-                            fontSize: 20,
+                          'WORD OF THE DAY',
+                          style: GoogleFonts.robotoSlab(
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: themeMode == ThemeMode.dark
-                                ? Colors.white54
-                                : Colors.black54,
+                            color:
+                                Theme.of(context).textTheme.displaySmall?.color,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
 
                         // Word
                         Text(
@@ -176,7 +179,8 @@ class SearchScreen extends ConsumerWidget {
                           style: GoogleFonts.merriweather(
                             fontSize: 26,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(context).textTheme.displaySmall?.color,
+                            color:
+                                Theme.of(context).textTheme.displaySmall?.color,
                           ),
                         ),
                         // const SizedBox(height: 6),
@@ -184,12 +188,13 @@ class SearchScreen extends ConsumerWidget {
                         // Part of speech
                         Text(
                           '/əɡˈzæmpl̩/',
-                          style: GoogleFonts.merriweather(
+                          style: GoogleFonts.notoSans(
                             fontSize: 16,
                             fontStyle: FontStyle.italic,
-                            color: themeMode == ThemeMode.dark
-                                ? Colors.white54
-                                : Colors.black54,
+                            color:
+                                themeMode == ThemeMode.dark
+                                    ? Colors.white54
+                                    : Colors.black54,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -200,10 +205,7 @@ class SearchScreen extends ConsumerWidget {
                           style: GoogleFonts.merriweather(
                             fontSize: 16,
                             height: 1.5,
-                            color:
-                            Theme.of(
-                              context,
-                            ).textTheme.bodyLarge?.color,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -214,11 +216,29 @@ class SearchScreen extends ConsumerWidget {
                           style: GoogleFonts.merriweather(
                             fontSize: 16,
                             height: 1.5,
-                            color:
-                            Theme.of(
-                              context,
-                            ).textTheme.bodyLarge?.color,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
+                        ),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'FIND OUT MORE',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color:
+                                      themeMode == ThemeMode.dark
+                                          ? Colors.pink.shade800
+                                          : Colors.pink.shade500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
