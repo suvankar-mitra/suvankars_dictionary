@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
 import 'package:suvankars_dictionary/themes/app_colors.dart';
-import 'package:suvankars_dictionary/views/home_screen.dart';
+import 'package:suvankars_dictionary/views/home/home_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: const MainApp()));

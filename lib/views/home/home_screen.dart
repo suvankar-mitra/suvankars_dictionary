@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
+import 'package:suvankars_dictionary/views/home/search_screen.dart';
 import 'package:suvankars_dictionary/views/saved_words_screen.dart';
-import 'package:suvankars_dictionary/views/search_screen.dart';
 import 'package:suvankars_dictionary/views/settings_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -87,17 +87,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            selectedIconTheme: IconThemeData(
-              size: 30.0,
-              color:
-                  themeMode == ThemeMode.dark
-                      ? Colors.pink.shade800
-                      : Colors.pink.shade500,
-            ),
-            unselectedIconTheme: IconThemeData(
-              size: 20.0,
-              color: themeMode == ThemeMode.dark ? Colors.grey : Colors.black54,
-            ),
+            selectedIconTheme: IconThemeData(size: 30.0),
+            unselectedIconTheme: IconThemeData(size: 20.0),
           ),
         ),
       ),
