@@ -3,6 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
+import 'package:suvankars_dictionary/themes/app_colors.dart';
 
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
@@ -41,8 +42,8 @@ class SearchScreen extends ConsumerWidget {
                             : FeatherIcons.moon,
                         color:
                             themeMode == ThemeMode.dark
-                                ? Colors.white
-                                : Colors.black,
+                                ? darkThemePink
+                                : lightThemePink,
                       ),
                       onPressed: () {
                         // Toggle the theme mode
@@ -106,15 +107,16 @@ class SearchScreen extends ConsumerWidget {
                         FeatherIcons.search,
                         color:
                             themeMode == ThemeMode.dark
-                                ? Colors.white54
-                                : Colors.black54,
+                                ? Colors.white60
+                                : Colors.black87,
                       ),
                       filled: true,
                       fillColor:
                           themeMode == ThemeMode.dark
-                              ? Colors.grey[800]
+                              ? Colors.grey.shade700
                               : Colors
-                                  .grey[200], // Background color for the search bar
+                                  .grey
+                                  .shade300, // Background color for the search bar
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
                         borderSide:
@@ -145,103 +147,91 @@ class SearchScreen extends ConsumerWidget {
                 const SizedBox(height: 30),
 
                 // word of the day
-                Card(
-                  elevation: 3.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  // margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20.0,
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 10.0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Section Label
-                        Text(
-                          'WORD OF THE DAY',
-                          style: GoogleFonts.robotoSlab(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color:
-                                Theme.of(context).textTheme.displaySmall?.color,
-                          ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Section Label
+                      Text(
+                        'WORD OF THE DAY',
+                        style: GoogleFonts.robotoSlab(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color:
+                              Theme.of(context).textTheme.displaySmall?.color,
                         ),
-                        const SizedBox(height: 10),
+                      ),
+                      const SizedBox(height: 10),
 
-                        // Word
-                        Text(
-                          'example',
-                          style: GoogleFonts.merriweather(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w700,
-                            color:
-                                Theme.of(context).textTheme.displaySmall?.color,
-                          ),
+                      // Word
+                      Text(
+                        'example',
+                        style: GoogleFonts.merriweather(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                          color:
+                              Theme.of(context).textTheme.displaySmall?.color,
                         ),
-                        // const SizedBox(height: 6),
+                      ),
+                      // const SizedBox(height: 6),
 
-                        // Part of speech
-                        Text(
-                          '/əɡˈzæmpl̩/',
-                          style: GoogleFonts.notoSans(
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
-                            color:
-                                themeMode == ThemeMode.dark
-                                    ? Colors.white54
-                                    : Colors.black54,
-                          ),
+                      // Part of speech
+                      Text(
+                        '/əɡˈzæmpl̩/',
+                        style: GoogleFonts.notoSans(
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                          color:
+                              themeMode == ThemeMode.dark
+                                  ? Colors.white54
+                                  : Colors.black54,
                         ),
-                        const SizedBox(height: 16),
+                      ),
+                      const SizedBox(height: 16),
 
-                        // First definition
-                        Text(
-                          '1. One or a portion taken to show the character or quality of the whole; a sample; a specimen.',
-                          style: GoogleFonts.merriweather(
-                            fontSize: 16,
-                            height: 1.5,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
+                      // First definition
+                      Text(
+                        '1. One or a portion taken to show the character or quality of the whole; a sample; a specimen.',
+                        style: GoogleFonts.merriweather(
+                          fontSize: 16,
+                          height: 1.5,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
-                        const SizedBox(height: 12),
+                      ),
+                      const SizedBox(height: 12),
 
-                        // Second definition
-                        Text(
-                          '2. That which is to be followed or imitated as a model; a pattern or copy.',
-                          style: GoogleFonts.merriweather(
-                            fontSize: 16,
-                            height: 1.5,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
+                      // Second definition
+                      Text(
+                        '2. That which is to be followed or imitated as a model; a pattern or copy.',
+                        style: GoogleFonts.merriweather(
+                          fontSize: 16,
+                          height: 1.5,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
+                      ),
 
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'FIND OUT MORE',
-                                style: GoogleFonts.roboto(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      themeMode == ThemeMode.dark
-                                          ? Colors.pink.shade800
-                                          : Colors.pink.shade500,
-                                ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'LEARN MORE',
+                              style: GoogleFonts.roboto(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    themeMode == ThemeMode.dark
+                                        ? darkThemePink
+                                        : lightThemePink,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
