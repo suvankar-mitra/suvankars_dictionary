@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
-import 'package:suvankars_dictionary/views/home/search_screen.dart';
 import 'package:suvankars_dictionary/views/saved_words_screen.dart';
-import 'package:suvankars_dictionary/views/settings_screen.dart';
+import 'package:suvankars_dictionary/views/search/search_screen.dart';
+import 'package:suvankars_dictionary/views/settings/settings_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
