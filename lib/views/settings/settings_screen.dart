@@ -13,8 +13,6 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Access the current theme state
     final themeMode = ref.watch(themeProvider);
-    // Access the current color scheme
-    final colorScheme = ref.watch(colorSchemeProvider);
 
     const leadingIconSize = 26.0;
 
