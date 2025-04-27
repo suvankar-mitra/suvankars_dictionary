@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final colorSchemeProvider = StateProvider<ColorSchemeOption>(
-  (ref) => ColorSchemeOption.lime,
+  (ref) => ColorSchemeOption.pink,
 );
 
-enum ColorSchemeOption { pink, lime, orange }
+enum ColorSchemeOption { pink, lime, orange, blue, red }

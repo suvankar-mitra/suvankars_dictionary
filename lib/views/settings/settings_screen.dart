@@ -4,18 +4,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suvankars_dictionary/providers/color_scheme_provider.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
-
-import '../themes/app_theme.dart';
+import 'package:suvankars_dictionary/themes/app_theme.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Access the current theme state and use a button to toggle
+    // Access the current theme state
     final themeMode = ref.watch(themeProvider);
-
+    // Access the current color scheme
     final colorScheme = ref.watch(colorSchemeProvider);
+
+    const leadingIconSize = 26.0;
+
+    const WidgetStateProperty<Icon> thumbIcon =
+        WidgetStateProperty<Icon>.fromMap(<WidgetStatesConstraint, Icon>{
+          WidgetState.selected: Icon(FeatherIcons.moon, size: 20.0),
+          WidgetState.any: Icon(FeatherIcons.sun, size: 20.0),
+        });
 
     return SafeArea(
       child: Scaffold(
@@ -38,7 +45,9 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
 
+                // UI settings
                 Card(
+                  elevation: 0.0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
@@ -52,14 +61,12 @@ class SettingsScreen extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   Icon(
-                                    themeMode == ThemeMode.dark
-                                        ? FeatherIcons.moon
-                                        : FeatherIcons.sun,
+                                    Icons.brightness_5_outlined,
                                     color:
                                         Theme.of(
                                           context,
                                         ).textTheme.bodyLarge?.color,
-                                    size: 24.0,
+                                    size: leadingIconSize,
                                   ),
                                   SizedBox(width: 16.0),
                                   Column(
@@ -101,23 +108,41 @@ class SettingsScreen extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            IconButton(
-                              iconSize: 20.0,
-                              icon: Icon(
-                                FeatherIcons.chevronRight,
-                                color: buttonColor(ref),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 40.0,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Switch(
+                                    thumbIcon: thumbIcon,
+                                    value: themeMode == ThemeMode.dark,
+                                    thumbColor: WidgetStateProperty.all<Color>(
+                                      buttonColor(ref),
+                                    ),
+                                    inactiveThumbColor: buttonColor(ref),
+                                    activeTrackColor:
+                                        themeMode == ThemeMode.dark
+                                            ? Colors.grey.shade400
+                                            : Colors.black54,
+                                    inactiveTrackColor:
+                                        themeMode == ThemeMode.dark
+                                            ? Colors.grey
+                                            : Colors.grey.shade200,
+                                    onChanged: (bool value) {
+                                      ref.read(themeProvider.notifier).state =
+                                          themeMode == ThemeMode.dark
+                                              ? ThemeMode.light
+                                              : ThemeMode.dark;
+                                    },
+                                  ),
+                                ),
                               ),
-                              onPressed: () {
-                                // Toggle the theme mode
-                                ref.read(themeProvider.notifier).state =
-                                    themeMode == ThemeMode.dark
-                                        ? ThemeMode.light
-                                        : ThemeMode.dark;
-                              },
                             ),
                           ],
                         ),
 
+                        // divider
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Divider(height: 0),
@@ -132,12 +157,12 @@ class SettingsScreen extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   Icon(
-                                    FeatherIcons.eye,
+                                    Icons.palette_outlined,
                                     color:
                                         Theme.of(
                                           context,
                                         ).textTheme.bodyLarge?.color,
-                                    size: 24.0,
+                                    size: leadingIconSize,
                                   ),
                                   SizedBox(width: 16.0),
                                   Column(
@@ -145,7 +170,7 @@ class SettingsScreen extends ConsumerWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Change color scheme',
+                                        'Select accent color',
                                         style: GoogleFonts.roboto(
                                           fontSize:
                                               Theme.of(
@@ -158,44 +183,13 @@ class SettingsScreen extends ConsumerWidget {
                                               ).textTheme.bodyLarge?.color,
                                         ),
                                       ),
-                                      Text(
-                                        'Theme selected pink',
-                                        style: GoogleFonts.roboto(
-                                          fontSize:
-                                              Theme.of(
-                                                context,
-                                              ).textTheme.bodySmall?.fontSize,
-                                          // fontWeight: FontWeight.w500,
-                                          color:
-                                              themeMode == ThemeMode.dark
-                                                  ? Colors.grey
-                                                  : Colors.black54,
-                                        ),
-                                      ),
+
+                                      // radio button to change color scheme
+                                      _buildColorSchemeOption(ref),
                                     ],
                                   ),
                                 ],
                               ),
-                            ),
-                            IconButton(
-                              iconSize: 20.0,
-                              icon: Icon(
-                                FeatherIcons.chevronRight,
-                                color: buttonColor(ref),
-                              ),
-                              onPressed: () {
-                                if (colorScheme == ColorSchemeOption.pink) {
-                                  ref.read(colorSchemeProvider.notifier).state =
-                                      ColorSchemeOption.orange;
-                                } else if (colorScheme ==
-                                    ColorSchemeOption.orange) {
-                                  ref.read(colorSchemeProvider.notifier).state =
-                                      ColorSchemeOption.lime;
-                                } else {
-                                  ref.read(colorSchemeProvider.notifier).state =
-                                      ColorSchemeOption.pink;
-                                }
-                              },
                             ),
                           ],
                         ),
@@ -208,6 +202,46 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildColorSchemeOption(WidgetRef ref) {
+    ColorSchemeOption selectedOption = ref.watch(colorSchemeProvider);
+
+    // Colors options
+    final Map<Color, ColorSchemeOption> colorOptions = {
+      getPinkColor(ref): ColorSchemeOption.pink,
+      getLimeColor(ref): ColorSchemeOption.lime,
+      getOrangeColor(ref): ColorSchemeOption.orange,
+      getBlueColor(ref): ColorSchemeOption.blue,
+      getRedColor(ref): ColorSchemeOption.red,
+    };
+
+    Color selectedColor =
+        colorOptions.entries
+            .firstWhere((entry) => entry.value == selectedOption)
+            .key;
+
+    return Row(
+      children:
+          colorOptions.keys.map((Color color) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 6.0),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: Radio<Color>(
+                  value: color,
+                  groupValue: selectedColor,
+                  fillColor: WidgetStateProperty.all(color),
+                  onChanged: (Color? value) {
+                    ref.read(colorSchemeProvider.notifier).state =
+                        colorOptions[color]!;
+                  },
+                ),
+              ),
+            );
+          }).toList(),
     );
   }
 }

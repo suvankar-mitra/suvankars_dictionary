@@ -1,4 +1,3 @@
-// Solarized Dark Minimal Theme
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:suvankars_dictionary/providers/color_scheme_provider.dart';
@@ -10,6 +9,10 @@ final Color darkThemeLime = Colors.lime.shade900;
 final Color lightThemeLime = Colors.lime.shade700;
 final Color darkThemeOrange = Colors.orange.shade900;
 final Color lightThemeOrange = Colors.orange.shade700;
+final Color darkThemeBlue = Colors.blue.shade900;
+final Color lightThemeBlue = Colors.blue.shade500;
+final Color darkThemeRed = Colors.red.shade900;
+final Color lightThemeRed = Colors.red.shade500;
 
 ThemeData appDarkTheme(WidgetRef ref) {
   final colorScheme = ref.watch(colorSchemeProvider);
@@ -24,6 +27,12 @@ ThemeData appDarkTheme(WidgetRef ref) {
       break;
     case ColorSchemeOption.orange:
       mainColor = darkThemeOrange;
+      break;
+    case ColorSchemeOption.blue:
+      mainColor = darkThemeBlue;
+      break;
+    case ColorSchemeOption.red:
+      mainColor = darkThemeRed;
       break;
   }
   return ThemeData(
@@ -56,10 +65,13 @@ ThemeData appLightTheme(WidgetRef ref) {
     case ColorSchemeOption.orange:
       mainColor = lightThemeOrange;
       break;
+    case ColorSchemeOption.blue:
+      mainColor = lightThemeBlue;
+      break;
+    case ColorSchemeOption.red:
+      mainColor = lightThemeRed;
+      break;
   }
-
-  print("============ color scheme? $colorScheme, $mainColor");
-
   return ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
@@ -78,26 +90,62 @@ ThemeData appLightTheme(WidgetRef ref) {
 
 Color buttonColor(WidgetRef ref) {
   final colorScheme = ref.watch(colorSchemeProvider);
-  final themeData = ref.watch(themeProvider);
 
   switch (colorScheme) {
     case ColorSchemeOption.pink:
-      if (themeData == ThemeMode.dark) {
-        return darkThemePink;
-      } else {
-        return lightThemePink;
-      }
+      return getPinkColor(ref);
     case ColorSchemeOption.lime:
-      if (themeData == ThemeMode.dark) {
-        return darkThemeLime;
-      } else {
-        return lightThemeLime;
-      }
+      return getLimeColor(ref);
     case ColorSchemeOption.orange:
-      if (themeData == ThemeMode.dark) {
-        return darkThemeOrange;
-      } else {
-        return lightThemeOrange;
-      }
+      return getOrangeColor(ref);
+    case ColorSchemeOption.blue:
+      return getBlueColor(ref);
+    case ColorSchemeOption.red:
+      return getRedColor(ref);
+  }
+}
+
+Color getPinkColor(WidgetRef ref) {
+  final themeData = ref.watch(themeProvider);
+  if (themeData == ThemeMode.dark) {
+    return darkThemePink;
+  } else {
+    return lightThemePink;
+  }
+}
+
+Color getLimeColor(WidgetRef ref) {
+  final themeData = ref.watch(themeProvider);
+  if (themeData == ThemeMode.dark) {
+    return darkThemeLime;
+  } else {
+    return lightThemeLime;
+  }
+}
+
+Color getOrangeColor(WidgetRef ref) {
+  final themeData = ref.watch(themeProvider);
+  if (themeData == ThemeMode.dark) {
+    return darkThemeOrange;
+  } else {
+    return lightThemeOrange;
+  }
+}
+
+Color getBlueColor(WidgetRef ref) {
+  final themeData = ref.watch(themeProvider);
+  if (themeData == ThemeMode.dark) {
+    return darkThemeBlue;
+  } else {
+    return lightThemeBlue;
+  }
+}
+
+Color getRedColor(WidgetRef ref) {
+  final themeData = ref.watch(themeProvider);
+  if (themeData == ThemeMode.dark) {
+    return darkThemeRed;
+  } else {
+    return lightThemeRed;
   }
 }
