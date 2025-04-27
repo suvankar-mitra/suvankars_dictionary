@@ -3,7 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
-import 'package:suvankars_dictionary/themes/app_colors.dart';
+import 'package:suvankars_dictionary/themes/app_theme.dart';
 
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
@@ -19,9 +19,9 @@ class SearchScreen extends ConsumerWidget {
     final List<String> recentSearchItems = [
       'profound',
       'light',
-      // 'run',
-      // 'never',
-      // 'retro',
+      'run',
+      'never',
+      'retro',
     ];
 
     return GestureDetector(
@@ -34,40 +34,10 @@ class SearchScreen extends ConsumerWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(25.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Toggle button for dark/light mode
-                // Row(
-                //   children: [
-                //     Spacer(),
-                //     IconButton(
-                //       iconSize: 30.0,
-                //       icon: Icon(
-                //         themeMode == ThemeMode.dark
-                //             ? FeatherIcons.sun
-                //             : FeatherIcons.moon,
-                //         color:
-                //             themeMode == ThemeMode.dark
-                //                 ? darkThemePink
-                //                 : lightThemePink,
-                //       ),
-                //       onPressed: () {
-                //         // Toggle the theme mode
-                //         ref.read(themeProvider.notifier).state =
-                //             themeMode == ThemeMode.dark
-                //                 ? ThemeMode.light
-                //                 : ThemeMode.dark;
-                //         // Dismiss the keyboard when tapping outside the search bar
-                //         if (searchFocusNode.hasFocus) {
-                //           searchFocusNode.unfocus();
-                //         }
-                //       },
-                //     ),
-                //   ],
-                // ),
-
                 // App title
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
@@ -97,58 +67,42 @@ class SearchScreen extends ConsumerWidget {
                 // Search bar
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: TextFormField(
-                    focusNode: searchFocusNode,
-                    style: GoogleFonts.roboto(
-                      fontSize: 16.0,
-                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
                     ),
-                    decoration: InputDecoration(
-                      hintText: 'Search for a word ...',
-                      hintStyle: GoogleFonts.roboto(
+                    child: TextFormField(
+                      focusNode: searchFocusNode,
+                      style: GoogleFonts.roboto(
                         fontSize: 16.0,
-                        color: Theme.of(
-                          context,
-                        ).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
-                      prefixIcon: Icon(
-                        FeatherIcons.search,
-                        color:
-                            themeMode == ThemeMode.dark
-                                ? Colors.white60
-                                : Colors.black87,
-                      ),
-                      filled: true,
-                      fillColor:
-                          themeMode == ThemeMode.dark
-                              ? Colors.grey.shade700
-                              : Colors
-                                  .grey
-                                  .shade300, // Background color for the search bar
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                        borderSide:
-                            BorderSide.none, // Remove border for a cleaner look
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                        borderSide: BorderSide(
-                          color:
-                              themeMode == ThemeMode.dark
-                                  ? Colors.grey[600]!
-                                  : Colors.grey[400]!,
-                          width: 2.0,
+                      decoration: InputDecoration(
+                        hintText: 'Search for a word ...',
+                        hintStyle: GoogleFonts.roboto(
+                          fontSize: 16.0,
+                          color: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
+                        ),
+                        prefixIcon: Icon(
+                          FeatherIcons.search,
+                          color: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
+                        ),
+                        filled: false,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                          borderSide: BorderSide.none,
                         ),
                       ),
+                      onFieldSubmitted: (value) {
+                        // Handle search logic here
+                      },
                     ),
-                    onFieldSubmitted: (value) {
-                      // Handle search logic here
-                      print('Search for: $value');
-                    },
                   ),
                 ),
 
@@ -166,7 +120,7 @@ class SearchScreen extends ConsumerWidget {
                           'WORD OF THE DAY',
                           style: GoogleFonts.robotoSlab(
                             fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w800,
                             color:
                                 Theme.of(context).textTheme.displaySmall?.color,
                           ),
@@ -178,10 +132,7 @@ class SearchScreen extends ConsumerWidget {
                             style: GoogleFonts.roboto(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color:
-                                  themeMode == ThemeMode.dark
-                                      ? darkThemePink
-                                      : lightThemePink,
+                              color: buttonColor(ref),
                             ),
                           ),
                         ),
@@ -190,10 +141,6 @@ class SearchScreen extends ConsumerWidget {
                     const SizedBox(height: 10),
 
                     Card(
-                      color:
-                          themeMode == ThemeMode.dark
-                              ? Colors.black54
-                              : Colors.grey[100],
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
@@ -275,7 +222,7 @@ class SearchScreen extends ConsumerWidget {
                               'RECENT SEARCHES',
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w800,
                                 color:
                                     Theme.of(
                                       context,
@@ -289,10 +236,7 @@ class SearchScreen extends ConsumerWidget {
                                 style: GoogleFonts.roboto(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color:
-                                      themeMode == ThemeMode.dark
-                                          ? darkThemePink
-                                          : lightThemePink,
+                                  color: buttonColor(ref),
                                 ),
                               ),
                             ),
@@ -300,10 +244,6 @@ class SearchScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         Card(
-                          color:
-                              themeMode == ThemeMode.dark
-                                  ? Colors.black54
-                                  : Colors.grey[100],
                           child: Column(
                             children: List.generate(recentSearchItems.length, (
                               index,
@@ -322,12 +262,21 @@ class SearchScreen extends ConsumerWidget {
                                             ).textTheme.bodyLarge?.color,
                                       ),
                                     ),
+                                    subtitle: Text(
+                                      "noun",
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 12,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color!
+                                            .withValues(alpha: 0.5),
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
                                     trailing: Icon(
                                       FeatherIcons.chevronRight,
-                                      color:
-                                          themeMode == ThemeMode.dark
-                                              ? darkThemePink
-                                              : lightThemePink,
+                                      color: buttonColor(ref),
                                     ),
                                     onTap: () {},
                                     dense: true,
