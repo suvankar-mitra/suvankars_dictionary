@@ -121,7 +121,7 @@ class SettingsScreen extends ConsumerWidget {
                                     inactiveThumbColor: buttonColor(ref),
                                     activeTrackColor:
                                         themeMode == ThemeMode.dark
-                                            ? Colors.grey.shade400
+                                            ? Colors.grey.shade700
                                             : Colors.black54,
                                     inactiveTrackColor:
                                         themeMode == ThemeMode.dark

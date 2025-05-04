@@ -7,6 +7,7 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
+  dio: ^5.8.0+1
   fluentui_system_icons: ^1.1.273
   flutter:
     sdk: flutter

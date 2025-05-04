@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:suvankars_dictionary/models/dictionary_entry.dart';
+import 'package:suvankars_dictionary/providers/dictionary_def_provider.dart';
 import 'package:suvankars_dictionary/providers/theme_provider.dart';
 import 'package:suvankars_dictionary/themes/app_theme.dart';
 
@@ -12,6 +16,23 @@ class SearchScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Access the current theme state and use a button to toggle
     final themeMode = ref.watch(themeProvider);
+
+    final List<String> words = [
+      'ephemeral',
+      'sonorous',
+      'susurrus',
+      'soliloquy',
+      'quixotic',
+      'defenestration',
+      'halcyon',
+      'zephyr',
+    ];
+
+    final Random random = Random();
+    final String word = words[random.nextInt(words.length)];
+
+    // Access dictionary entries
+    final dictionaryEntries = ref.watch(dictionaryDefProvider(word));
 
     // Create a FocusNode for the search bar
     final searchFocusNode = FocusNode();
@@ -140,69 +161,117 @@ class SearchScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 10),
 
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Word
-                            Text(
-                              'example',
-                              style: GoogleFonts.merriweather(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.displaySmall?.color,
-                              ),
-                            ),
-                            // const SizedBox(height: 6),
+                    dictionaryEntries.when(
+                      data: (dictionaryEntries) {
+                        if (dictionaryEntries.isEmpty) {
+                          return const Center(
+                            child: Text("No definitions found."),
+                          );
+                        }
 
-                            // Part of speech
-                            Text(
-                              '/əɡˈzæmpl̩/',
-                              style: GoogleFonts.notoSans(
-                                fontSize: 16,
-                                fontStyle: FontStyle.italic,
-                                color:
-                                    themeMode == ThemeMode.dark
-                                        ? Colors.white54
-                                        : Colors.black54,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
+                        DictionaryEntry dictionaryEntry =
+                            dictionaryEntries.first;
+                        for (DictionaryEntry e in dictionaryEntries) {
+                          if (e.definitions.length > 1) {
+                            dictionaryEntry = e;
+                            break;
+                          }
+                        }
 
-                            // First definition
-                            Text(
-                              '1. One or a portion taken to show the character or quality of the whole; a sample; a specimen.',
-                              style: GoogleFonts.merriweather(
-                                fontSize: 16,
-                                height: 1.5,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge?.color,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Word
+                                Text(
+                                  dictionaryEntry.entryWord,
+                                  style: GoogleFonts.merriweather(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.displaySmall?.color,
+                                  ),
+                                ),
 
-                            // Second definition
-                            Text(
-                              '2. That which is to be followed or imitated as a model; a pattern or copy.',
-                              style: GoogleFonts.merriweather(
-                                fontSize: 16,
-                                height: 1.5,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge?.color,
-                              ),
+                                // const SizedBox(height: 6),
+
+                                // Part of speech
+                                Text(
+                                  dictionaryEntry.partsOfSpeech.first,
+                                  style: GoogleFonts.notoSans(
+                                    fontSize: 16,
+                                    fontStyle: FontStyle.italic,
+                                    color:
+                                        themeMode == ThemeMode.dark
+                                            ? Colors.white54
+                                            : Colors.black54,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // First definition
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(text: '1. '),
+                                      TextSpan(
+                                        text:
+                                            dictionaryEntry
+                                                .definitions
+                                                .first
+                                                .definition ??
+                                            'No definition found',
+                                      ),
+                                    ],
+                                    style: GoogleFonts.merriweather(
+                                      fontSize: 16,
+                                      height: 1.5,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge?.color,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+
+                                // Second definition
+                                if (dictionaryEntry.definitions.length > 1)
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(text: '2. '),
+                                        TextSpan(
+                                          text:
+                                              dictionaryEntry
+                                                  .definitions[1]
+                                                  .definition ??
+                                              'No definition found',
+                                        ),
+                                      ],
+                                      style: GoogleFonts.merriweather(
+                                        fontSize: 16,
+                                        height: 1.5,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.bodyLarge?.color,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
+                      error: (err, _) => Center(child: Text("Error: $err")),
+                      loading:
+                          () =>
+                              const Center(child: CircularProgressIndicator()),
                     ),
                   ],
                 ),
@@ -244,6 +313,7 @@ class SearchScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         Card(
+                          elevation: 0,
                           child: Column(
                             children: List.generate(recentSearchItems.length, (
                               index,
@@ -263,7 +333,7 @@ class SearchScreen extends ConsumerWidget {
                                       ),
                                     ),
                                     subtitle: Text(
-                                      "noun",
+                                      "12 hours ago",
                                       style: GoogleFonts.merriweather(
                                         fontSize: 12,
                                         color: Theme.of(context)
